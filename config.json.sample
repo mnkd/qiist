@@ -1,0 +1,9 @@
+{
+  "qiita": {
+    "access_token": "your access token",
+    "users": [
+      { "id": "xxxx" },
+      { "id": "xxxx" }
+    ]
+  }
+}
