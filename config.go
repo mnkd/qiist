@@ -3,7 +3,6 @@ package main
 import (
 	"io/ioutil"
 	"encoding/json"
-	"fmt"
 )
 
 type Config struct {
@@ -18,7 +17,7 @@ type User struct {
 	Id string `json:"id"`
 }
 
-func (qiita *Qiita) UserIDs() []string {
+func (qiita Qiita) UserIDs() []string {
 	var ids []string
 	for _, user := range qiita.Users {
 		ids = append(ids, user.Id)
@@ -26,17 +25,15 @@ func (qiita *Qiita) UserIDs() []string {
 	return ids
 }
 
-func NewConfig() (Config, error) {
+func NewConfig(path string) (Config, error) {
 	var config Config
 
-	str, err := ioutil.ReadFile("config.json")
+	str, err := ioutil.ReadFile(path)
 	if err != nil {
-		fmt.Println("Could not read config.json. ", err)
 		return config, err
 	}
 
 	if err := json.Unmarshal(str, &config); err != nil {
-		fmt.Println("JSON Unmarshal Error:", err)
 		return config, err
 	}
 
