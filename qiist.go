@@ -10,9 +10,11 @@ import (
 	"time"
 )
 
+// flags
 var (
 	userID string
 	perPage string
+	configPath string
 )
 
 // Note:
@@ -107,9 +109,14 @@ var app = App{}
 func init() {
 	flag.StringVar(&userID, "user_id", "", "Qiita user ID")
 	flag.StringVar(&perPage, "per_page", "5", "Defalt: 5")
+	flag.StringVar(&configPath, "config", "/path/to/config.json", "Default: ./config.json")
 	flag.Parse()
 
-	config, err := NewConfig()
+	if len(configPath) == 0 {
+		configPath = "config.json"
+	}
+
+	config, err := NewConfig(configPath)
 	if err != nil {
 		fmt.Println("error:", err)
 		os.Exit(1)
