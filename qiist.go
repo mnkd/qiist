@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-    "time"
+	"time"
 )
 
 var (
@@ -30,13 +30,13 @@ type Stock struct {
 }
 
 func (stock Stock) dateDescription() string {
-    // "created_at": "2000-01-01T00:00:00+00:00",
-    jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-    t, err := time.Parse(time.RFC3339, stock.CreatedAt)
-    if err != nil {
-        return ""
-    }
-    return t.In(jst).Format("2006-01-02")
+	// "created_at": "2000-01-01T00:00:00+00:00",
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+	t, err := time.Parse(time.RFC3339, stock.CreatedAt)
+	if err != nil {
+		return ""
+	}
+	return t.In(jst).Format("2006-01-02")
 }
 
 func (stock Stock) description() string {
