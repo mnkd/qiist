@@ -51,7 +51,7 @@ type App struct {
 
 func (app *App) stocks(userID string) ([]Stock, error) {
 	// Prepare HTTP Request
-	url := "https://qiita.com/api/v2/users/" + userID + "/stocks?page=1&per_page=" + perPage
+	url := "https://" + app.Config.Qiita.Domain + "/api/v2/users/" + userID + "/stocks?page=1&per_page=" + perPage
 	request, err := http.NewRequest("GET", url, nil)
 	request.Header.Add("Authorization", "Bearer " + app.Config.Qiita.AccessToken)
 
