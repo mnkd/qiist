@@ -10,6 +10,7 @@ type Config struct {
 }
 
 type Qiita struct {
+	Domain      string `json:"domain"`
 	AccessToken string `json:"access_token"`
 	Users       []User `json:"users"`
 }
