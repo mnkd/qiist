@@ -23,4 +23,6 @@ _testmain.go
 *.test
 *.prof
 
+# Qiist
 qiist
+config*.json
