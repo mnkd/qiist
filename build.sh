@@ -1,2 +1,2 @@
 #!/bin/sh
-go build qiist.go config.go
+go build -o qiist main.go qiita.go config.go
