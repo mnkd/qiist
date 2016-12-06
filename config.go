@@ -6,21 +6,18 @@ import (
 )
 
 type Config struct {
-	Qiita Qiita `json:"qiita"`
+	Qiita struct {
+		Domain      string `json:"domain"`
+		AccessToken string `json:"access_token"`
+		Users []struct {
+			Id string `json:"id"`
+		} `json:"users"`
+	} `json:"qiita"`
 }
 
-type Qiita struct {
-	Domain      string `json:"domain"`
-	AccessToken string `json:"access_token"`
-	Users       []User `json:"users"`
-}
-type User struct {
-	Id string `json:"id"`
-}
-
-func (qiita Qiita) UserIDs() []string {
+func (config Config) QiitaUserIDs() []string {
 	var ids []string
-	for _, user := range qiita.Users {
+	for _, user := range config.Qiita.Users {
 		ids = append(ids, user.Id)
 	}
 	return ids

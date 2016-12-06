@@ -26,7 +26,7 @@ func (app App) run() error {
 	if len(userID) > 0 {
 		userIDs = []string{ userID }
 	} else {
-		userIDs = app.Config.Qiita.UserIDs()
+		userIDs = app.Config.QiitaUserIDs()
 	}
 
 	for _, id := range userIDs {
