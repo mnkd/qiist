@@ -14,7 +14,7 @@ var (
 )
 
 type App struct {
-    QiitaAPI QiitaAPI
+	QiitaAPI QiitaAPI
 	Config Config
 }
 var app = App{}
@@ -61,8 +61,9 @@ func init() {
 		fmt.Println("error:", err)
 		os.Exit(1)
 	}
+    
 	app.Config = config
-    app.QiitaAPI = NewQiitaAPI(config)
+	app.QiitaAPI = NewQiitaAPI(config)
 }
 
 func main() {
