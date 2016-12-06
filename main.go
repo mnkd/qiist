@@ -8,15 +8,16 @@ import (
 
 // flags
 var (
-	userID string
-	perPage string
+	userID     string
+	perPage    string
 	configPath string
 )
 
 type App struct {
 	QiitaAPI QiitaAPI
-	Config Config
+	Config   Config
 }
+
 var app = App{}
 
 func (app App) run() error {
@@ -24,7 +25,7 @@ func (app App) run() error {
 	var userIDs []string
 
 	if len(userID) > 0 {
-		userIDs = []string{ userID }
+		userIDs = []string{userID}
 	} else {
 		userIDs = app.Config.QiitaUserIDs()
 	}
@@ -61,7 +62,7 @@ func init() {
 		fmt.Println("error:", err)
 		os.Exit(1)
 	}
-    
+
 	app.Config = config
 	app.QiitaAPI = NewQiitaAPI(config)
 }

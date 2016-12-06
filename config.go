@@ -1,15 +1,15 @@
 package main
 
 import (
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
 )
 
 type Config struct {
 	Qiita struct {
 		Domain      string `json:"domain"`
 		AccessToken string `json:"access_token"`
-		Users []struct {
+		Users       []struct {
 			Id string `json:"id"`
 		} `json:"users"`
 	} `json:"qiita"`

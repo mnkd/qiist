@@ -16,8 +16,8 @@ import (
 // ストックした日付は取得できない。
 
 type QiitaAPI struct {
-    Domain string
-    AccessToken string
+	Domain      string
+	AccessToken string
 }
 
 type Stock struct {
@@ -45,7 +45,7 @@ func (qiita QiitaAPI) Stocks(userID string) ([]Stock, error) {
 	// Prepare HTTP Request
 	url := "https://" + qiita.Domain + "/api/v2/users/" + userID + "/stocks?page=1&per_page=" + perPage
 	request, err := http.NewRequest("GET", url, nil)
-	request.Header.Add("Authorization", "Bearer " + qiita.AccessToken)
+	request.Header.Add("Authorization", "Bearer "+qiita.AccessToken)
 
 	var stocks []Stock
 
@@ -70,8 +70,8 @@ func (qiita QiitaAPI) Stocks(userID string) ([]Stock, error) {
 }
 
 func NewQiitaAPI(config Config) QiitaAPI {
-    qiita := QiitaAPI{}
-    qiita.Domain = config.Qiita.Domain
-    qiita.AccessToken = config.Qiita.AccessToken
-    return qiita
+	qiita := QiitaAPI{}
+	qiita.Domain = config.Qiita.Domain
+	qiita.AccessToken = config.Qiita.AccessToken
+	return qiita
 }
