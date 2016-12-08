@@ -39,7 +39,7 @@ func (app App) run() error {
 			return err
 		}
 
-		message += "# " + id + "\n"
+		message += "## " + id + "\n"
 		for _, stock := range stocks {
 			message += "- " + stock.Description() + "\n"
 		}
