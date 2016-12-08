@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sort"
 )
 
 // flags
@@ -29,6 +30,8 @@ func (app App) run() error {
 	} else {
 		userIDs = app.Config.QiitaUserIDs()
 	}
+
+	sort.Strings(userIDs)
 
 	for _, id := range userIDs {
 		stocks, err := app.QiitaAPI.Stocks(id)
