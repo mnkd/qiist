@@ -32,19 +32,19 @@ func (app App) Fetch(userID string, wg *sync.WaitGroup) {
 
 	stocks, err := app.QiitaAPI.Stocks(userID)
 	if err != nil {
-        fmt.Println(err)
+		fmt.Println(err)
 		return
 	}
 
-    if len(stocks) == 0 {
-        return
-    }
+	if len(stocks) == 0 {
+		return
+	}
 
 	message := "## " + userID + "\n"
 	for _, stock := range stocks {
 		message += "- " + stock.Description() + "\n"
 	}
-    fmt.Println(message)
+	fmt.Println(message)
 }
 
 func (app App) run() error {
