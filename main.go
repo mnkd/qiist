@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"sync"
+)
 )
 
 // flags
@@ -21,8 +23,27 @@ type App struct {
 
 var app = App{}
 
+func (app App) Fetch(userID string, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	stocks, err := app.QiitaAPI.Stocks(userID)
+	if err != nil {
+        fmt.Println(err)
+		return
+	}
+
+    if len(stocks) == 0 {
+        return
+    }
+
+	message := "## " + userID + "\n"
+	for _, stock := range stocks {
+		message += "- " + stock.Description() + "\n"
+	}
+    fmt.Println(message)
+}
+
 func (app App) run() error {
-	message := ""
 	var userIDs []string
 
 	if len(userID) > 0 {
@@ -33,20 +54,13 @@ func (app App) run() error {
 
 	sort.Strings(userIDs)
 
+	var wg sync.WaitGroup
 	for _, id := range userIDs {
-		stocks, err := app.QiitaAPI.Stocks(id)
-		if err != nil {
-			return err
-		}
-
-		message += "## " + id + "\n"
-		for _, stock := range stocks {
-			message += "- " + stock.Description() + "\n"
-		}
-		message += "\n"
+		wg.Add(1)
+		go app.Fetch(id, &wg)
 	}
 
-	fmt.Println(message)
+	wg.Wait()
 	return nil
 }
 
