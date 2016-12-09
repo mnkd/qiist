@@ -7,6 +7,10 @@ import (
 	"sort"
 	"sync"
 )
+
+var (
+	Version  string
+	Revision string
 )
 
 // flags
@@ -65,10 +69,17 @@ func (app App) run() error {
 }
 
 func init() {
+	version := flag.Bool("v", false, "prints current qiist version")
 	flag.StringVar(&userID, "user_id", "", "Qiita user ID")
 	flag.StringVar(&perPage, "per_page", "5", "Defalt: 5")
 	flag.StringVar(&configPath, "config", "/path/to/config.json", "Default: ./config.json")
 	flag.Parse()
+
+	if *version {
+		fmt.Println("Version: " + Version)
+		fmt.Println("Revision: " + Revision)
+		os.Exit(0)
+	}
 
 	if len(configPath) == 0 {
 		configPath = "config.json"
