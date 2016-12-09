@@ -70,9 +70,9 @@ func (app App) run() error {
 
 func init() {
 	version := flag.Bool("v", false, "prints current qiist version")
-	flag.StringVar(&userID, "user_id", "", "Qiita user ID")
-	flag.StringVar(&perPage, "per_page", "5", "Defalt: 5")
-	flag.StringVar(&configPath, "config", "/path/to/config.json", "Default: ./config.json")
+	flag.StringVar(&userID, "u", "", "Qiita user ID")
+	flag.StringVar(&perPage, "n", "5", "number of page. defalt: 5")
+	flag.StringVar(&configPath, "c", "/path/to/config.json", "Default: ./config.json")
 	flag.Parse()
 
 	if *version {
