@@ -1,17 +1,16 @@
 NAME     := qiist
-VERSION  := 0.1.2
+VERSION  := 0.2.0
 REVISION := $(shell git rev-parse --short HEAD)
-
 SRCS    := $(shell find . -type f -name '*.go')
 LDFLAGS := -ldflags="-X \"main.Version=$(VERSION)\" -X \"main.Revision=$(REVISION)\""
 
-bin/$(NAME): $(SRCS)
+bin/$(NAME): $(SRCS) format
 	go build $(LDFLAGS) -o bin/$(NAME)
 
-.PHONY: format
 format:
 	go fmt $(SRCS)
 
-.PHONY: clean
 clean:
 	rm -rf bin/*
+
+.PHONY: format clean

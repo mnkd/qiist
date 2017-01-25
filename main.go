@@ -7,6 +7,11 @@ import (
 	"sort"
 )
 
+const (
+	ExitCodeOK int = iota
+	ExitCodeError
+)
+
 var (
 	Version  string
 	Revision string
@@ -33,12 +38,8 @@ var app = App{}
 
 func (app App) Fetch(userID string, c chan<- Result) {
 	stocks, err := app.QiitaAPI.Stocks(userID)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	if len(stocks) == 0 {
+	if err != nil || len(stocks) == 0 {
+		c <- Result{userID, ""}
 		return
 	}
 
@@ -49,7 +50,7 @@ func (app App) Fetch(userID string, c chan<- Result) {
 	c <- Result{userID, message}
 }
 
-func (app App) run() error {
+func (app App) Run() int {
 	var userIDs []string
 
 	if len(userID) > 0 {
@@ -67,11 +68,11 @@ func (app App) run() error {
 
 	for i := 0; i < len(userIDs); i++ {
 		result := <-c
-		fmt.Println(result.Message)
+		fmt.Fprintln(os.Stdout, result.Message)
 	}
 
 	close(c)
-	return nil
+	return ExitCodeOK
 }
 
 func init() {
@@ -82,9 +83,9 @@ func init() {
 	flag.Parse()
 
 	if *version {
-		fmt.Println("Version: " + Version)
-		fmt.Println("Revision: " + Revision)
-		os.Exit(0)
+		fmt.Fprintln(os.Stdout, "Version:", Version)
+		fmt.Fprintln(os.Stdout, "Revision:", Revision)
+		os.Exit(ExitCodeOK)
 	}
 
 	if len(configPath) == 0 {
@@ -93,8 +94,7 @@ func init() {
 
 	config, err := NewConfig(configPath)
 	if err != nil {
-		fmt.Println("error:", err)
-		os.Exit(1)
+		os.Exit(ExitCodeError)
 	}
 
 	app.Config = config
@@ -102,8 +102,5 @@ func init() {
 }
 
 func main() {
-	if err := app.run(); err != nil {
-		fmt.Println("error: ", err)
-		os.Exit(1)
-	}
+	os.Exit(app.Run())
 }

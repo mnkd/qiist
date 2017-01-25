@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -53,7 +54,7 @@ func (qiita QiitaAPI) Stocks(userID string) ([]Stock, error) {
 	client := &http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
-		fmt.Println("Failure : ", err)
+		fmt.Fprintln(os.Stderr, "Qiita: <error> fetch stocks:", userID, err)
 		return stocks, err
 	}
 
@@ -62,7 +63,7 @@ func (qiita QiitaAPI) Stocks(userID string) ([]Stock, error) {
 
 	// Decode JSON
 	if err := json.Unmarshal(responseBody, &stocks); err != nil {
-		fmt.Println("JSON Unmarshal error:", userID, err)
+		fmt.Fprintln(os.Stderr, "Qiita: <error> json unmarshal:", userID, err)
 		return stocks, err
 	}
 
