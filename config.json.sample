@@ -1,9 +1,10 @@
 {
   "qiita": {
+    "domain": "qiita.com",
     "access_token": "your access token",
     "users": [
-      { "id": "xxxx" },
-      { "id": "xxxx" }
+      { "id": "qiita id" },
+      { "id": "qiita id" }
     ]
   }
 }
