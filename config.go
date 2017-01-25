@@ -11,6 +11,7 @@ type Config struct {
 	Qiita struct {
 		Domain      string `json:"domain"`
 		AccessToken string `json:"access_token"`
+		PerPage     int    `json:"per_page"`
 		Users       []struct {
 			Id string `json:"id"`
 		} `json:"users"`

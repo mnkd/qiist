@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"sort"
 )
 
 const (
@@ -15,13 +14,6 @@ const (
 var (
 	Version  string
 	Revision string
-)
-
-// flags
-var (
-	userID     string
-	perPage    string
-	configPath string
 )
 
 type App struct {
@@ -51,16 +43,7 @@ func (app App) Fetch(userID string, c chan<- Result) {
 }
 
 func (app App) Run() int {
-	var userIDs []string
-
-	if len(userID) > 0 {
-		userIDs = []string{userID}
-	} else {
-		userIDs = app.Config.QiitaUserIDs()
-	}
-
-	sort.Strings(userIDs)
-
+	userIDs := app.Config.QiitaUserIDs()
 	c := make(chan Result)
 	for _, id := range userIDs {
 		go app.Fetch(id, c)
@@ -76,23 +59,23 @@ func (app App) Run() int {
 }
 
 func init() {
-	version := flag.Bool("v", false, "prints current qiist version")
-	flag.StringVar(&userID, "u", "", "Qiita user ID")
-	flag.StringVar(&perPage, "n", "5", "number of page. defalt: 5")
-	flag.StringVar(&configPath, "c", "/path/to/config.json", "Default: ./config.json")
+	var version bool
+	var path string
+	flag.BoolVar(&version, "v", false, "prints current qiist version")
+	flag.StringVar(&path, "c", "/path/to/config.json", "Default: ./config.json")
 	flag.Parse()
 
-	if *version {
+	if version {
 		fmt.Fprintln(os.Stdout, "Version:", Version)
 		fmt.Fprintln(os.Stdout, "Revision:", Revision)
 		os.Exit(ExitCodeOK)
 	}
 
-	if len(configPath) == 0 {
-		configPath = "config.json"
+	if len(path) == 0 {
+		path = "config.json"
 	}
 
-	config, err := NewConfig(configPath)
+	config, err := NewConfig(path)
 	if err != nil {
 		os.Exit(ExitCodeError)
 	}

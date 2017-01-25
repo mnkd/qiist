@@ -19,6 +19,7 @@ import (
 type QiitaAPI struct {
 	Domain      string
 	AccessToken string
+	PerPage     int
 }
 
 type Stock struct {
@@ -44,7 +45,7 @@ func (stock Stock) Description() string {
 
 func (qiita QiitaAPI) Stocks(userID string) ([]Stock, error) {
 	// Prepare HTTP Request
-	url := "https://" + qiita.Domain + "/api/v2/users/" + userID + "/stocks?page=1&per_page=" + perPage
+	url := fmt.Sprintf("https://%s/api/v2/users/%s/stocks?page=1&per_page=%d", qiita.Domain, userID, qiita.PerPage)
 	request, err := http.NewRequest("GET", url, nil)
 	request.Header.Add("Authorization", "Bearer "+qiita.AccessToken)
 
@@ -74,5 +75,11 @@ func NewQiitaAPI(config Config) QiitaAPI {
 	qiita := QiitaAPI{}
 	qiita.Domain = config.Qiita.Domain
 	qiita.AccessToken = config.Qiita.AccessToken
+	qiita.PerPage = config.Qiita.PerPage
+
+	if qiita.PerPage == 0 {
+		qiita.PerPage = 5
+	}
+
 	return qiita
 }
