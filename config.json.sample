@@ -4,8 +4,9 @@
     "access_token": "your access token",
     "per_page": 5,
     "users": [
-      { "id": "qiita id" },
-      { "id": "qiita id" }
+      "qiita id",
+      "qiita id",
+      "qiita id"
     ]
   }
 }

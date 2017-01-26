@@ -43,13 +43,13 @@ func (app App) Fetch(userID string, c chan<- Result) {
 }
 
 func (app App) Run() int {
-	userIDs := app.Config.QiitaUserIDs()
+	users := app.Config.Qiita.Users
 	c := make(chan Result)
-	for _, id := range userIDs {
-		go app.Fetch(id, c)
+	for _, user := range users {
+		go app.Fetch(user, c)
 	}
 
-	for i := 0; i < len(userIDs); i++ {
+	for i := 0; i < len(users); i++ {
 		result := <-c
 		fmt.Fprintln(os.Stdout, result.Message)
 	}

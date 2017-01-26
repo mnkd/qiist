@@ -9,21 +9,11 @@ import (
 
 type Config struct {
 	Qiita struct {
-		Domain      string `json:"domain"`
-		AccessToken string `json:"access_token"`
-		PerPage     int    `json:"per_page"`
-		Users       []struct {
-			Id string `json:"id"`
-		} `json:"users"`
+		Domain      string   `json:"domain"`
+		AccessToken string   `json:"access_token"`
+		PerPage     int      `json:"per_page"`
+		Users       []string `json:"users"`
 	} `json:"qiita"`
-}
-
-func (config Config) QiitaUserIDs() []string {
-	var ids []string
-	for _, user := range config.Qiita.Users {
-		ids = append(ids, user.Id)
-	}
-	return ids
 }
 
 func NewConfig(path string) (Config, error) {
