@@ -1,11 +1,18 @@
 # qiist
+指定した Qiita User がストックしている投稿で、最新の 5 件を表示するコマンドです（件数は `conif.json` で変更できます）
 
-- 指定した Qiita User がストックしている投稿で、最新の 5 件を表示するコマンドです
+## インストール
+```
+$ go get -u github.com/mnkd/qiist
+```
+
+## 設定ファイル
 - `config.json.sample` を基に `config.json` を作成してください
-- `$ sh build.sh` でビルド
-- `$ ./qiish` で実行できます
 
-
+## 使い方
+```
+$ qiist -c /path/to/config.json
+```
 
 # 補足 - Qiita API の注意点
 ## 利用制限
@@ -16,5 +23,6 @@
 
 ## Qiita:Team のデータを利用する場合
 - [Qiita API Doc | 概要](http://qiita.com/api/v2/docs#概要)
+
 > リクエスト
 > APIとの全ての通信にはHTTPSプロトコルを利用します。アクセス先のホストには、Qiitaのデータを利用する場合には qiita.com を利用し、Qiita:Teamのデータを利用する場合には *.qiita.com を利用します (*には所属しているTeamのIDが入ります)。
